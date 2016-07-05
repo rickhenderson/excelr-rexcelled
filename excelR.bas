@@ -185,16 +185,22 @@ Sub Cleanup()
     ' Delete all the worksheets that aren't called "Main"
     ' in the THIS workbook.
     
-    Dim wksSheet As Worksheet
+    dim result As VBAResult
     
-    ' Turn off alerts
-    Application.DisplayAlerts = False
-    For Each wksSheet In ThisWorkbook.Worksheets
-        If wksSheet.Name <> "Main" Then
-            wksSheet.Delete
-        End If
-    Next
+    result = inputbox("Are you sure you want to delete all worksheets except the one called 'Main'", vbOKCancel + vbCritical, "Delete all other worksheets")
+    if result = vbYes Then
     
-    ' Turn alerts back on
-    Application.DisplayAlerts = True
+        Dim wksSheet As Worksheet
+    
+        ' Turn off alerts
+        Application.DisplayAlerts = False
+        For Each wksSheet In ThisWorkbook.Worksheets
+            If wksSheet.Name <> "Main" Then
+                wksSheet.Delete
+            End If
+        Next
+        
+        ' Turn alerts back on
+        Application.DisplayAlerts = True
+    end if
 End Sub

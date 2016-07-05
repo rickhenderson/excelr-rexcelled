@@ -10,6 +10,35 @@ Option Explicit
 ' ## Function List:
 ' * read_csv(file, header = True, sep =",")
 ' * plot()
+' * blanks_to_na()
+
+Sub blanks_to_na()
+    ' Subroutine to convert all blank values
+    ' in a datafile to NA for use with R.
+    ' Also shades the cells red for easy identification.
+    ' When exported as a CSV, color is ignored and lost.
+    
+    Dim used_cells As Range
+    Dim cell As Range
+    
+    ' Set a variable to represent all the used cells in the worksheet
+    Set used_cells = Worksheets("data").UsedRange
+    
+    ' Go through every cell in the range and
+    ' if it is blank, set the value to NA.
+    ' Warning: It is also possible that
+    '    blank cells from your data source
+    '    actually contain a space, and are not empty.
+    ' This function sets both to NA.
+    
+    For Each cell In used_cells
+        If cell.Value = "" Or cell.Value = " " Then
+            cell.Value = "NA"
+            cell.Interior.Color = RGB(255, 0, 0)
+        End If
+    Next
+
+End Sub
 
 Public Function read_csv(file As String, Optional header As Boolean = True, Optional sep As String = ",") As Boolean
 '
